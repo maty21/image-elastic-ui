@@ -1,0 +1,22 @@
+{
+  "name": "searchkit-starter",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "^1.0.14"
+  },
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "reactstrap": "^6.1.0",
+    "searchkit": "beta",
+    "styled-components": "^3.3.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
