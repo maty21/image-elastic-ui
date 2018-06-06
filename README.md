@@ -1,10 +1,16 @@
-## Searchkit Starter App
 
-Used to start new applications which use Searchkit. Based off the popular create-react-app. If you dont know about `create-react-app`, please read their [readme](https://github.com/facebookincubator/create-react-app/blob/master/README.md) and install create-react-app on your machine 
+## instruction 
+--------------------
 
-##  Install instructions
+##### 1.  run docker  for elastic
+```
+docker run -e ELASTIC_PASSWORD=MagicWord -p 9200:9200  -v /home/matyz/dev/OpenSource/elastic-fake-data/elasticConfig/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml docker.elastic.co/elasticsearch/elasticsearch:6.2.4 
 
-- git clone git@github.com:searchkit/searchkit-starter-app.git
-- cd searchkit-starter-app
-- yarn
-- npm start
+```
+
+#### 2. generate date 
+
+```js
+node app.js ${data Amount params}  // example node app.js 100
+
+````
