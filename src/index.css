@@ -8,10 +8,10 @@
   line-height: 16px;
 }
 .sk-layout__body {
-  margin: 60px 20px 0;
+  margin: 60px 0px 0;
 } 
-.sk-layout__filters {
-
+.sk-layout__results{
+  margin: 15px 0px 0px 15px ;
 }
 .sk-layout__top-bar  .bla {
   background: "#28a74" ;

@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome ",
+            "url": "http://localhost:3000",
+            //   "webRoot": "__build__",
+            "webRoot": "${workspaceFolder}/src",
+            "sourceMapPathOverrides": {
+                //   "webpack:///*": "${workspaceRoot}/app/*",
+                "webpack:///app/*": "${webRoot}/*", // Example: "webpack:///src/App.js" -> "C:/project/src/App.js"
+            },
+            //    "sourceMapPathOverrides": {
+            //     "webpack:///./~/*": "${webRoot}/node_modules/*", // Example: "webpack:///./~/querystring/index.js" -> "/Users/me/project/node_modules/querystring/index.js"
+            //     "webpack:///./*": "${webRoot}/*", // Example: "webpack:///./src/app.js" -> "/users/me/project/src/app.js",
+            //     "webpack:///*": "*", // Example: "webpack:///C:/project/app.ts" -> "C:/project/app.ts"
+            //     "webpack:///src/*": "${webRoot}/*", // Example: "webpack:///src/App.js" -> "C:/project/src/App.js"
+            //     "meteor://💻app/*": "${webRoot}/*" // Example: "meteor://💻app/main.ts" -> "c:/code/main.ts"
+            // }
+            // "sourceMaps": true,
+        }
+    ]
+}
