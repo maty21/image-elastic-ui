@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import extend from 'lodash/extend'
+
 import {
   SearchkitManager, SearchkitProvider,
   SearchBox, RefinementListFilter, Pagination,
@@ -104,7 +105,7 @@ const ImagesHitsGridItem = (props) => {
     <div className={bemBlocks.item().mix(bemBlocks.container("item"))} data-qa="hit">
 
       <a target="_blank">
-        <img data-qa="poster" alt="presentation" className={bemBlocks.item("poster")} src={image} width="170" height="240" />
+        <img data-qa="poster" alt="presentation" className={bemBlocks.item("poster")} src={image} width="170" height="200" />
         <div data-qa="title" className={bemBlocks.item("title")}>{sensor}</div>
         <div data-qa="title" className={bemBlocks.item("subtitle")}>{sensorKind}</div>
       </a>
@@ -118,13 +119,16 @@ class App extends Component {
   render() {
     return (
       <SearchkitProvider searchkit={searchkit}>
-        <Layout  size="l"  >
-          <TopBar>
+        <Layout  size="l"   >
+          <TopBar className="bla" mod="sk-primary-theme-color--green"
+
+          >
             <div className="my-logo">IndexR</div>
             <SearchBox autofocus={true} searchOnChange={true} prefixQueryFields={["sensor^1", "sensorKind^2", "location"]} />
           </TopBar>
-          <LayoutBody>
-            <SideBar>
+        <div >
+          <LayoutBody  style={{margin:"0px"}}>
+            <SideBar  style={{margin:"0px"}}>
               <InputFilter id="sensor" searchThrottleTime={500} title="sensor" placeholder="sensor" searchOnChange={true} queryFields={["sensor"]} />
               <RefinementListFilter id="sensorKind" title="sensorKind" field="sensorKind.keyword" size={10} />
               <HierarchicalMenuFilter fields={["sensor.keyword", "sensorKind.keyword"]} title="sensors" id="categories" />
@@ -173,6 +177,7 @@ class App extends Component {
               <Pagination showNumbers={true} />
             </LayoutResults>
           </LayoutBody>
+          </div>
         </Layout>
       </SearchkitProvider>
     );
