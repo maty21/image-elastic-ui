@@ -13,9 +13,10 @@ import {
   Layout, TopBar, LayoutBody, LayoutResults,
   ActionBar, ActionBarRow, SideBar
 } from 'searchkit'
-
+import cs from 'classnames';
 
 import './index.css'
+import styles from './styles.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import styled from "styled-components";
 import { GeoMap } from "./GeoMap/index";
@@ -57,14 +58,12 @@ const ImagesHitsListItem = (props) => {
 const ImagesHitsGridItem = (props) => {
   const { bemBlocks } = props;
   const { sensorKind, sensor, resolutionWidth, resolutionHeight, location, image } = props.result._source
-
   return (
     <div className={bemBlocks.item().mix(bemBlocks.container("item"))} data-qa="hit">
-
       <a target="_blank">
-        <img data-qa="poster" alt="presentation" className={bemBlocks.item("poster")} src={image} width="170" height="200" />
+        <img data-qa="poster" alt="presentation" className={`${bemBlocks.item("poster")} myPoster`} src={image} width="170" height="200" />
         <div data-qa="title" className={bemBlocks.item("title")}>{sensor}</div>
-        <div data-qa="title" className={bemBlocks.item("subtitle")}>{sensorKind}</div>
+        <div data-qa="title" className={`${bemBlocks.item("subtitle")} sensorKind`}>{sensorKind}</div>
       </a>
     </div>
   )
@@ -79,6 +78,7 @@ class App extends Component {
 
     this.removalFn = searchkit.addResultsListener((results) => {
       this.setState({ ...this.state, results });
+      console.log(this)
       /*  console.log('------------------------------------');
        console.log(this.setState(results));
        console.log('------------------------------------'); */
@@ -91,7 +91,7 @@ class App extends Component {
       latitude: 39.833851,
       longitude: -74.871826,
       zoom: 14,
-     
+
     },
     results: null
   };
@@ -99,12 +99,12 @@ class App extends Component {
 
 
   render() {
-    let markers =null;
+    let markers = null;
     console.log(this.state);
-    if(this.state.results&&this.state.results.hits){
+    if (this.state.results && this.state.results.hits) {
       markers = this.state.results.hits.hits.map(p =>
-        <Marker latitude={p._source.point.latitude} longitude={p._source.point.longitude} offsetLeft={-20} offsetTop={-10}>
-         <img src="./location.png" color="blue"/>
+        <Marker latitude={p._source.point.lat} longitude={p._source.point.lon} offsetLeft={-20} offsetTop={-10}>
+          <img src="./location.png" color="blue" />
         </Marker>
       )
     }
@@ -194,12 +194,13 @@ class App extends Component {
                 </LayoutResults>
               </LayoutBody>
             </div>
-            <div style={{ marginTop: "15px" }}>
-              <ReactMapGL style={{ margin: '15px' }} {...this.state.viewport} mapStyle={mapStyle} onViewportChange={(viewport) => this.setState({ viewport })}>
+            <div>
+              {/*   <ReactMapGL style={{ margin: '15px' }} {...this.state.viewport} mapStyle={mapStyle} onViewportChange={(viewport) => this.setState({ viewport })}>
                 {markers}
-              </ReactMapGL>
-            {/*   <GeoMap /> */}
-         
+              </ReactMapGL> */}
+              <GeoMap searchkit={searchkit} >
+              {markers}
+              </GeoMap>
             </div>
           </StyledDivFlex>
         </Layout>

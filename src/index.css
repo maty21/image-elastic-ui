@@ -26,3 +26,15 @@
   overflow-y:scroll; 
 
 }
+.myPoster{
+  border-radius: 5px;
+}
+
+.sk-hits-grid {
+  justify-content: center;
+  text-align: center;
+}
+.sensorKind{
+  color: #ccc;
+  font-size: 0.9em;
+}

@@ -28,7 +28,7 @@ export class GeoAccessor extends Accessor {
         bool: {
           filter: {
             geo_bounding_box: {
-              location: this.area
+              point: this.area
             }
           }
         }
@@ -44,12 +44,12 @@ export class GeoAccessor extends Accessor {
         query.getFilters(),
         new GeohashBucket(
           "areas",
-          "location",
+          "point",
           {},
-          new GeoBoundsMetric("cell", "location")
+          new GeoBoundsMetric("cell", "point")
         ),
         {},
-        new GeoBoundsMetric("bounds", "location")
+        new GeoBoundsMetric("bounds", "point")
       )
     );
   }

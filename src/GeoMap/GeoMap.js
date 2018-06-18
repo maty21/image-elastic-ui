@@ -3,10 +3,6 @@ import Immutable from "immutable";
 import * as _ from "lodash";
 import ReactMapGL, { NavigationControl } from "react-map-gl";
 import ScatterplotOverlay from "./ScatterPlotOverlay";
-
-import ViewportMercator from "viewport-mercator-project";
-import { GeoAccessor } from "./GeoAccessor";
-
 import {
   Accessor,
   AggsContainer,
@@ -16,12 +12,23 @@ import {
   GeohashBucket,
   GeoBoundsMetric,
   SignificantTermsBucket,
-  FilteredQuery
+  FilteredQuery,
+  SearchkitManager
 } from "searchkit";
 
+import ViewportMercator from "viewport-mercator-project";
+import { GeoAccessor } from "./GeoAccessor";
+
+const host = "http://localhost:9200/image"
+
 export class GeoMap extends SearchkitComponent {
+ 
   constructor(props) {
     super(props);
+    this.searchkit  = props.searchkit;
+
+   this.searchkit.addResultsListener.bind(this);
+  
     this.mapStyle = Immutable.fromJS({
       "version": 8,
       "sources": {
@@ -54,20 +61,30 @@ export class GeoMap extends SearchkitComponent {
         height: 1000,
         latitude: 39.833851,
         longitude: -74.871826,
-        zoom: 14,
-      }
-  }
+        zoom: 17,
+        isDragging: false
+
+      },
+      results:null
+    }
+
+    this.removalFn =  this.searchkit.addResultsListener((results) => {
+      this.setState({ ...this.state, results });
+      /*  console.log('------------------------------------');
+       console.log(this.setState(results));
+       console.log('------------------------------------'); */
+    })
   }
   defineAccessor() {
     return new GeoAccessor();
   }
 
-  /* centerFromBound(bound) {
+  centerFromBound(bound) {
     return {
       lat: (bound.top_left.lat + bound.bottom_right.lat) / 2,
       lng: (bound.top_left.lon + bound.bottom_right.lon) / 2
     };
-  } */
+  }
 
   getPoints() {
     let areas = this.accessor.getAggregations(["geo", "areas", "buckets"], []);
@@ -79,9 +96,9 @@ export class GeoMap extends SearchkitComponent {
   _onViewportChange(opt) {
     const { viewport, displayNavigation } = this.state;
 
-    if (!opt.isDragging) {
+    if (!viewport.isDragging) {
       // stopped dragging, refresh the data
-    /*   const mercator = new ViewportMercator(viewport);
+      const mercator = new ViewportMercator(viewport);
 
       const bounds = [
         mercator.unproject([0, 0]),
@@ -93,10 +110,11 @@ export class GeoMap extends SearchkitComponent {
       const area = {
         top_left: { lat: nw[1], lon: nw[0] },
         bottom_right: { lat: se[1], lon: se[0] }
-      }; */
+      };
 
-     // this.accessor.setArea(area);
+      this.accessor.setArea(area);
       this.searchkit.search();
+      this.setState({viewport:opt})
     }
 
 
@@ -114,27 +132,27 @@ export class GeoMap extends SearchkitComponent {
         className="geomap-navigation"
         style={{ position: "absolute", right: "5px", top: "5px" }}
       >
-      {/*   <NavigationControl
+        <NavigationControl
           onViewportChange={this._onViewportChange.bind(this)}
-        /> */}
+        />
       </div>
     ) : null;
 
     return (
       <ReactMapGL mapStyle={this.mapStyle}
         {...viewport}
-    //    onViewportChange={this._onViewportChange.bind(this)}
+       onViewportChange={this._onViewportChange.bind(this)}
       >
-    {/*     <ScatterplotOverlay
+        <ScatterplotOverlay
           {...viewport}
           locations={locations}
           dotRadius={2}
           globalOpacity={1}
           compositeOperation="screen"
-        /> 
-           {control} 
-        */}
-     
+        />
+        {control}
+        {this.props.children}
+
       </ReactMapGL>
     );
   }
